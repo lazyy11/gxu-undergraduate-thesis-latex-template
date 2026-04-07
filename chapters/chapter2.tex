@@ -1,0 +1,58 @@
+\section{卷积神经网络基础}
+
+卷积神经网络通过局部感受野、权值共享和多层非线性映射实现对图像特征的逐层抽取，是目前图像识别领域最常用的基础模型之一。其典型结构由卷积层、归一化层、激活函数、池化层和分类层构成。卷积操作的本质是利用可学习卷积核在输入特征图上滑动，从而提取具有平移不变性的局部模式。
+
+设输入特征图为 $\mathbf{X}$，卷积核为 $\mathbf{K}$，则卷积层输出可以表示为
+\begin{equation}
+  \mathbf{Y}_{i,j}=\sum_{m=0}^{k-1}\sum_{n=0}^{k-1}\sum_{c=0}^{C-1}\mathbf{X}_{i+m,j+n,c}\mathbf{K}_{m,n,c}+b,
+  \label{eq:conv}
+\end{equation}
+其中 $k$ 表示卷积核尺寸，$C$ 表示通道数，$b$ 为偏置项。式 \eqref{eq:conv} 体现了卷积层通过局部连接逐步完成特征提取的基本机制。
+
+\section{残差学习与网络加深}
+
+随着网络层数增加，模型表达能力显著增强，但梯度消失、退化现象也会更加明显。ResNet 引入残差连接后，将原始映射转化为残差映射学习问题，使深层网络训练更加稳定。\supercite{he2016deep} 残差块的一般形式为
+\begin{equation}
+  \mathbf{y}=\mathcal{F}(\mathbf{x},\{W_i\})+\mathbf{x},
+  \label{eq:residual}
+\end{equation}
+其中 $\mathcal{F}$ 表示待学习的残差映射，$\mathbf{x}$ 表示恒等分支输入。该设计能够在保持网络深度优势的同时改善梯度传播。
+
+\section{注意力机制}
+
+注意力机制通过显式建模“哪些通道更重要”“哪些空间位置更关键”来提升模型的判别能力。SE 模块采用全局池化和门控函数学习通道权重，CBAM 则进一步结合通道注意力与空间注意力。\supercite{hu2018senet,woo2018cbam} 在轻量化图像识别任务中，注意力模块通常能够以较小的参数增量带来稳定的精度提升，因此常作为模型改进的重要手段。
+
+\section{图表与公式写作示例}
+
+为了方便用户快速复用模板，本节给出论文中常见图、表、公式的排版示例。
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\rule{0pt}{4.2cm}\rule{0.82\textwidth}{0pt}}
+  \caption{示例网络结构占位图}
+  \label{fig:network}
+\end{figure}
+
+图 \ref{fig:network} 为占位示意图，实际写作时可将其替换为实验流程图、网络结构图或系统架构图。模板默认按照“图2-1、图2-2”的形式自动编号。
+
+\begin{table}[htbp]
+  \centering
+  \caption{典型图像识别模型比较}
+  \label{tab:model-compare}
+  \begin{tabular}{lccc}
+    \toprule
+    模型 & 参数量 / M & Top-1 准确率 / \% & 主要特点 \\
+    \midrule
+    AlexNet & 61.0 & 57.1 & 网络较浅，开创深度学习竞赛突破 \\
+    VGG-16 & 138.0 & 71.3 & 结构规整，特征表达能力强 \\
+    ResNet-50 & 25.6 & 76.0 & 残差学习，易于训练更深网络 \\
+    EfficientNet-B0 & 5.3 & 77.1 & 兼顾精度与效率 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+表 \ref{tab:model-compare} 展示了不同模型在参数量和识别性能方面的差异。对于本科论文，建议每张图表都紧密服务于正文分析，避免堆砌数据而缺乏解释。
+
+\section{本章小结}
+
+本章介绍了卷积神经网络、残差学习与注意力机制等关键理论，并给出了论文写作中常见图、表和公式的排版示例。上述内容为后续模型设计和实验分析奠定了理论基础，也展示了模板在格式化学术内容方面的基本能力。

@@ -1,0 +1,461 @@
+%%
+%% 广西大学本科毕业设计（论文）LaTeX 模板样式
+%% Guangxi University Undergraduate Thesis Template Style
+%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gxuthesis}[2026/04/06 v2.0 Guangxi University undergraduate thesis template]
+
+\RequirePackage{iftex}
+\ifXeTeX\else
+  \PackageError{gxuthesis}{This template requires XeLaTeX}{Please compile the document with XeLaTeX.}
+\fi
+
+\RequirePackage[UTF8,scheme=plain,zihao=-4]{ctex}
+\RequirePackage{xeCJKfntef}
+\RequirePackage{geometry}
+\RequirePackage{setspace}
+\RequirePackage{titlesec}
+\RequirePackage{titletoc}
+\RequirePackage{tocloft}
+\RequirePackage{fancyhdr}
+\RequirePackage{graphicx}
+\RequirePackage{caption}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{longtable}
+\RequirePackage{tabularx}
+\RequirePackage{multirow}
+\RequirePackage{amsmath,amssymb,amsthm}
+\RequirePackage{enumitem}
+\RequirePackage{indentfirst}
+\RequirePackage{fontspec}
+\RequirePackage{xstring}
+\RequirePackage{etoolbox}
+\RequirePackage{tikz}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{xcolor}
+\RequirePackage{xurl}
+\RequirePackage{hyperref}
+\RequirePackage{csquotes}
+\RequirePackage{listings}
+\RequirePackage[backend=biber,style=gb7714-2015,sorting=none]{biblatex}
+
+%% ============================================================
+%% 页面与字体
+%% ============================================================
+\geometry{
+  a4paper,
+  top=2.54cm,
+  bottom=2.54cm,
+  left=2.2cm,
+  right=2.2cm,
+  headheight=14pt,
+  headsep=0.8cm,
+  footskip=1.2cm
+}
+
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{TeX Gyre Termes}}
+\IfFontExistsTF{Arial}
+  {\setsansfont{Arial}}
+  {\setsansfont{TeX Gyre Heros}}
+\IfFontExistsTF{Courier New}
+  {\setmonofont{Courier New}}
+  {\setmonofont{Latin Modern Mono}}
+
+\IfFontExistsTF{SimSun}
+  {\setCJKmainfont{SimSun}[AutoFakeBold=true,AutoFakeSlant=true]}
+  {\setCJKmainfont{FandolSong-Regular}[AutoFakeBold=true,AutoFakeSlant=true]}
+\IfFontExistsTF{SimHei}
+  {\setCJKsansfont{SimHei}[AutoFakeBold=true]}
+  {\setCJKsansfont{FandolHei-Regular}[AutoFakeBold=true]}
+\IfFontExistsTF{FangSong}
+  {\setCJKmonofont{FangSong}}
+  {\setCJKmonofont{FandolFang-Regular}}
+
+\newcommand{\yihao}{\fontsize{26pt}{36pt}\selectfont}
+\newcommand{\xiaoyihao}{\fontsize{24pt}{32pt}\selectfont}
+\newcommand{\erhao}{\fontsize{22pt}{30pt}\selectfont}
+\newcommand{\xiaoerhao}{\fontsize{18pt}{28pt}\selectfont}
+\newcommand{\sanhao}{\fontsize{16pt}{26pt}\selectfont}
+\newcommand{\xiaosanhao}{\fontsize{15pt}{24pt}\selectfont}
+\newcommand{\sihao}{\fontsize{14pt}{22pt}\selectfont}
+\newcommand{\xiaosihao}{\fontsize{12pt}{20pt}\selectfont}
+\newcommand{\wuhao}{\fontsize{10.5pt}{18pt}\selectfont}
+\newcommand{\xiaowuhao}{\fontsize{9pt}{15pt}\selectfont}
+
+\AtBeginDocument{\xiaosihao\songti\emergencystretch=2em\relax}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setstretch{1}
+
+%% ============================================================
+%% 文档元信息
+%% ============================================================
+\newcommand{\thesisTitle}[1]{\gdef\gxuThesisTitle{#1}}
+\newcommand{\thesisTitleEn}[1]{\gdef\gxuThesisTitleEn{#1}}
+\newcommand{\authorName}[1]{\gdef\gxuAuthorName{#1}}
+\newcommand{\studentId}[1]{\gdef\gxuStudentId{#1}}
+\newcommand{\majorName}[1]{\gdef\gxuMajorName{#1}}
+\newcommand{\collegeName}[1]{\gdef\gxuCollegeName{#1}}
+\newcommand{\className}[1]{\gdef\gxuClassName{#1}}
+\newcommand{\supervisorName}[1]{\gdef\gxuSupervisorName{#1}}
+\newcommand{\defenseDate}[1]{\gdef\gxuDefenseDate{#1}}
+\newcommand{\thesisType}[1]{\gdef\gxuThesisType{#1}}
+\newcommand{\logoPath}[1]{\gdef\gxuLogoPath{#1}}
+\newcommand{\lastPageImage}[1]{\gdef\gxuEndingPagePath{#1}}
+\newcommand{\schoolName}[1]{\gdef\gxuSchoolName{#1}}
+
+\def\gxuThesisTitle{广西大学本科毕业设计（论文）题目}
+\def\gxuThesisTitleEn{Title of Guangxi University Undergraduate Thesis}
+\def\gxuAuthorName{姓名}
+\def\gxuStudentId{学号}
+\def\gxuMajorName{专业}
+\def\gxuCollegeName{学院}
+\def\gxuClassName{班级}
+\def\gxuSupervisorName{指导教师}
+\def\gxuDefenseDate{二○二六 年 六 月 十一 日}
+\def\gxuThesisType{毕业设计（论文）}
+\def\gxuLogoPath{figures/gxu_logo_hd.png}
+\def\gxuEndingPagePath{}
+\def\gxuSchoolName{广西大学}
+
+\ExplSyntaxOn
+\cs_new_protected:Npn \gxu_defense_date_zero:
+  {
+    \kern0.03em
+    \raisebox{0.03em}
+      {{\CJKfontspec{SimSun}\fontsize{15.8pt}{18pt}\selectfont ○}}
+    \kern0.03em
+  }
+\cs_new_protected:Npn \gxu_render_date_chunk:n #1
+  {
+    \tl_set:Nn \l_tmpa_tl {#1}
+    \tl_replace_all:Nnn \l_tmpa_tl {〇} { \gxu_defense_date_zero: }
+    \tl_replace_all:Nnn \l_tmpa_tl {○} { \gxu_defense_date_zero: }
+    \tl_use:N \l_tmpa_tl
+  }
+\cs_new_protected:Npn \gxuRenderDateChunk #1
+  { \gxu_render_date_chunk:n {#1} }
+\ExplSyntaxOff
+
+\newcommand{\gxuDefenseDateGapGlyph}{\hspace{0.5em}}
+\makeatletter
+\newcommand{\gxuRenderDefenseDate}[1]{%
+  \begingroup
+  \edef\gxu@datecompact{\zap@space#1 \@empty}%
+  \expandafter\gxu@renderDefenseDate\gxu@datecompact\@nil
+  \endgroup
+}
+\def\gxu@renderDefenseDate#1年#2月#3日#4\@nil{%
+  \gxuRenderDateChunk{#1}%
+  \gxuDefenseDateGapGlyph 年\gxuDefenseDateGapGlyph
+  \gxuRenderDateChunk{#2}%
+  \gxuDefenseDateGapGlyph 月\gxuDefenseDateGapGlyph
+  \gxuRenderDateChunk{#3}%
+  \gxuDefenseDateGapGlyph 日%
+}
+\makeatother
+
+%% ============================================================
+%% 章节、目录与编号
+%% ============================================================
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\titleformat{\chapter}[block]
+  {\centering\xiaoerhao\heiti}
+  {第\chinese{chapter}章}
+  {1em}
+  {}
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+
+\titleformat{\section}
+  {\xiaosanhao\heiti}
+  {\thesection}
+  {1em}
+  {}
+\titlespacing*{\section}{0pt}{10pt}{0pt}
+
+\titleformat{\subsection}
+  {\sihao\heiti}
+  {\thesubsection}
+  {1em}
+  {}
+\titlespacing*{\subsection}{0pt}{10pt}{0pt}
+
+\titleformat{\subsubsection}
+  {\xiaosihao\heiti}
+  {\thesubsubsection}
+  {1em}
+  {}
+\titlespacing*{\subsubsection}{0pt}{5pt}{0pt}
+
+\titleformat{\paragraph}[runin]
+  {\xiaosihao\heiti}
+  {\theparagraph}
+  {1em}
+  {}
+\titlespacing*{\paragraph}{0pt}{5pt}{1em}
+
+\renewcommand{\contentsname}{目\quad 录}
+\renewcommand{\cfttoctitlefont}{\hfill\sanhao\heiti}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{18pt}
+\renewcommand{\cftchapfont}{\xiaosihao\songti}
+\renewcommand{\cftsecfont}{\xiaosihao\songti}
+\renewcommand{\cftsubsecfont}{\xiaosihao\songti}
+\renewcommand{\cftchappagefont}{\xiaosihao}
+\renewcommand{\cftsecpagefont}{\xiaosihao}
+\renewcommand{\cftsubsecpagefont}{\xiaosihao}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\cftsetindents{chapter}{0em}{4em}
+\cftsetindents{section}{2em}{3em}
+\cftsetindents{subsection}{4em}{4em}
+\settowidth{\cftchapnumwidth}{第十二章}
+\renewcommand{\cftchappresnum}{第}
+\renewcommand{\cftchapaftersnum}{章}
+
+\counterwithin{equation}{chapter}
+\makeatletter
+\@addtoreset{figure}{chapter}
+\@addtoreset{table}{chapter}
+\makeatother
+\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}
+\renewcommand{\thetable}{\arabic{chapter}-\arabic{table}}
+\renewcommand{\theequation}{\arabic{chapter}-\arabic{equation}}
+
+%% ============================================================
+%% 页眉页脚
+%% ============================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\xiaowuhao\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\xiaowuhao\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+%% ============================================================
+%% 图、表、代码与列表
+%% ============================================================
+\DeclareCaptionFont{gxucaptionfont}{\wuhao\songti}
+\captionsetup[figure]{
+  name=图,
+  labelsep=space,
+  position=bottom,
+  justification=centering,
+  singlelinecheck=false,
+  font=gxucaptionfont,
+  labelfont=gxucaptionfont,
+  skip=6pt
+}
+\captionsetup[table]{
+  name=表,
+  labelsep=space,
+  position=top,
+  justification=centering,
+  singlelinecheck=false,
+  font=gxucaptionfont,
+  labelfont=gxucaptionfont,
+  skip=6pt
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  frame=single,
+  columns=fullflexible,
+  breaklines=true,
+  keepspaces=true,
+  numbers=left,
+  numberstyle=\tiny,
+  xleftmargin=2em,
+  xrightmargin=1em
+}
+
+\setlist[enumerate]{leftmargin=2em,itemsep=0pt,parsep=0pt,topsep=3pt}
+\setlist[itemize]{leftmargin=2em,itemsep=0pt,parsep=0pt,topsep=3pt}
+
+%% ============================================================
+%% 超链接与引用
+%% ============================================================
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=blue,
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+  pdfauthor={Guangxi University Undergraduate Thesis Template}
+}
+\urlstyle{same}
+
+%% ============================================================
+%% 实用命令
+%% ============================================================
+\newcommand{\gxukeywords}[1]{%
+  \par\vspace{\baselineskip}%
+  \noindent{\heiti\xiaosihao 关键词\quad}{\songti\xiaosihao #1}\par
+}
+
+\newcommand{\gxuenkeywords}[1]{%
+  \par\vspace{\baselineskip}%
+  \noindent{\bfseries\xiaosihao Keywords:\ }{\xiaosihao #1}\par
+}
+
+\newcommand{\gxuenglishtitle}{%
+  \begin{center}
+    {\sanhao\bfseries \gxuThesisTitleEn\par}
+    \vspace{\baselineskip}
+    {\sanhao\bfseries ABSTRACT\par}
+  \end{center}
+  \vspace{\baselineskip}
+}
+
+\newcommand{\gxuinsertlogo}{%
+  \IfFileExists{\gxuLogoPath}{%
+    \includegraphics[height=3cm]{\gxuLogoPath}%
+  }{%
+    \begin{tikzpicture}[baseline]
+      \draw[red,thick] (0,0) circle (1cm);
+      \node[red] at (0,0) {\small 校徽};
+      \node[red] at (0,-1.55) {\heiti \gxuSchoolName};
+    \end{tikzpicture}%
+  }%
+}
+
+\newcommand{\makecover}{%
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \begingroup
+      \parindent=0pt
+      \setlength{\parskip}{0pt}
+
+      % 先空四个小四行高
+      {\xiaosihao\songti\vspace*{4\baselineskip}\par}
+
+      \begin{center}
+        \includegraphics[width=10.58cm]{\gxuLogoPath}\par
+      \end{center}
+
+      % 空一行一号高度
+      \vspace{36pt}
+
+      \begin{center}
+        {\fontsize{36pt}{36pt}\selectfont\songti \gxuThesisType\par}
+      \end{center}
+
+      % 空一行普通段落高度
+      {\xiaosihao\songti\vspace{20pt}\par}
+
+      {\yihao\heiti
+        \noindent
+        \begin{tabularx}{\textwidth}{@{}p{3.85cm}@{\hspace{0.2cm}}X@{}}
+          \makebox[3.85cm][l]{课题名称} &
+          \CJKunderline{\strut \gxuThesisTitle}
+        \end{tabularx}%
+        \par
+      }
+
+      % 空两行四号高度
+      {\fontsize{14pt}{18pt}\selectfont\songti\vspace{36pt}\par}
+
+      \begin{center}
+        \begin{minipage}{10.7cm}
+          {\fontsize{14pt}{18pt}\selectfont\songti
+            \makebox[2.55cm][l]{学\hspace{1.35em}院}%
+            \underline{\makebox[8.10cm][c]{\strut \gxuCollegeName}}\par
+            \makebox[2.55cm][l]{专\hspace{1.35em}业}%
+            \underline{\makebox[8.10cm][c]{\strut \gxuMajorName}}\par
+            \makebox[2.55cm][l]{班\hspace{1.35em}级}%
+            \underline{\makebox[8.10cm][c]{\strut \gxuClassName}}\par
+            \makebox[2.55cm][l]{学\hspace{1.35em}号}%
+            \underline{\makebox[8.10cm][c]{\strut \gxuStudentId}}\par
+            \makebox[2.55cm][l]{姓\hspace{1.35em}名}%
+            \underline{\makebox[8.10cm][c]{\strut \gxuAuthorName}}\par
+            \makebox[2.55cm][l]{指导老师}%
+            \underline{\makebox[8.10cm][c]{\strut \gxuSupervisorName}}\par
+          }
+        \end{minipage}
+      \end{center}
+
+      % 空一行四号高度
+      {\fontsize{14pt}{18pt}\selectfont\songti\vspace{18pt}\par}
+
+      \begin{center}
+        {\fontsize{14pt}{18pt}\selectfont\songti \gxuRenderDefenseDate{\gxuDefenseDate}\par}
+      \end{center}
+    \endgroup
+  \end{titlepage}
+}
+
+\renewcommand{\maketitle}{\makecover}
+
+\newcommand{\frontmatterpages}{%
+  \cleardoublepage
+  \pagestyle{plain}
+  \pagenumbering{Roman}
+  \setcounter{page}{1}
+}
+
+\newcommand{\mainmatterpages}{%
+  \cleardoublepage
+  \pagestyle{fancy}
+  \pagenumbering{arabic}
+  \setcounter{page}{1}
+}
+
+\newcommand{\backmatterpages}{%
+  \cleardoublepage
+  \pagestyle{fancy}
+}
+
+\newenvironment{acknowledgement}{%
+  \cleardoublepage
+  \chapter*{致\quad 谢}
+  \addcontentsline{toc}{chapter}{致谢}
+}{}
+
+\newcommand{\printthesisbibliography}{%
+  \cleardoublepage
+  \printbibliography[heading=bibintoc,title={参考文献}]
+}
+
+\newcommand{\makeendingpage}{%
+  \clearpage
+  \thispagestyle{empty}
+  \newgeometry{
+    top=2cm,
+    bottom=2cm,
+    left=2.5cm,
+    right=2cm,
+    headheight=14pt,
+    headsep=0.8cm,
+    footskip=1.2cm
+  }%
+  \begingroup
+    \parindent=0pt
+    \setlength{\parskip}{0pt}
+    \null
+    \vspace*{5.45cm}
+    \begin{center}
+      \IfFileExists{\gxuEndingPagePath}{%
+        \includegraphics[width=7.37cm,height=5.21cm,keepaspectratio]{\gxuEndingPagePath}%
+      }{}
+    \end{center}
+    \vspace*{0.55cm}
+  \endgroup
+  \restoregeometry
+  \clearpage
+}
+
+\endinput

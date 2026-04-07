@@ -1,0 +1,88 @@
+%%
+%% 广西大学本科毕业设计（论文）LaTeX 模板示例
+%% 编译方式：XeLaTeX + Biber + XeLaTeX + XeLaTeX
+%%
+
+\documentclass[12pt,a4paper,twoside,openright]{report}
+
+\usepackage{gxuthesis}
+\addbibresource{references/references.bib}
+
+%% ============================================================
+%% 论文信息
+%% ============================================================
+\thesisTitle{基于深度学习的图像识别方法研究}
+\thesisTitleEn{Research on Deep Learning Based Image Recognition Methods}
+\authorName{张三}
+\studentId{2021123456}
+\collegeName{计算机与电子信息学院}
+\majorName{计算机科学与技术}
+\className{信创211}
+\supervisorName{李四教授}
+\defenseDate{二○二六 年 四 月 七 日}
+\thesisType{毕业设计（论文）}
+\logoPath{figures/gxu_logo_hd.png}
+\lastPageImage{figures/ending_page.jpg}
+
+\begin{document}
+
+%% ------------------------------------------------------------
+%% 封面
+%% ------------------------------------------------------------
+\makecover
+
+%% ------------------------------------------------------------
+%% 摘要与目录
+%% ------------------------------------------------------------
+\frontmatterpages
+
+\chapter*{摘\quad 要}
+\addcontentsline{toc}{chapter}{摘要}
+\input{chapters/abstract_cn}
+
+\cleardoublepage
+\chapter*{}
+\addcontentsline{toc}{chapter}{Abstract}
+\gxuenglishtitle
+\input{chapters/abstract_en}
+
+\cleardoublepage
+\tableofcontents
+
+%% ------------------------------------------------------------
+%% 正文
+%% ------------------------------------------------------------
+\mainmatterpages
+
+\chapter{绪论}
+\input{chapters/chapter1}
+
+\chapter{相关理论与关键技术}
+\input{chapters/chapter2}
+
+\chapter{系统设计与研究方法}
+\input{chapters/chapter3}
+
+\chapter{实验设计与结果分析}
+\input{chapters/chapter4}
+
+\chapter{总结与展望}
+\input{chapters/chapter5}
+
+%% ------------------------------------------------------------
+%% 参考文献、附录、致谢
+%% ------------------------------------------------------------
+\backmatterpages
+\printthesisbibliography
+
+\appendix
+\chapter{补充实验材料}
+\input{chapters/appendix}
+
+\begin{acknowledgement}
+\input{chapters/acknowledgement}
+\end{acknowledgement}
+
+\makeendingpage
+
+\end{document}

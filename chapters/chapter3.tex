@@ -1,0 +1,72 @@
+\section{研究目标与总体方案}
+
+本文希望在尽量不显著增加参数量和推理时延的前提下，提高模型在复杂场景图像分类任务中的识别精度。为此，本文采用“基线网络 + 轻量注意力 + 多尺度特征融合”的总体思路，在保留主干网络高效结构的基础上增强关键信息表征能力。
+
+总体方案包含以下三个环节：
+
+\begin{enumerate}
+  \item 选择 ResNet-18 作为基线主干网络，以便兼顾训练成本与可解释性。
+  \item 在中高层特征中引入通道注意力模块，对关键语义通道进行重标定。
+  \item 设计浅层与深层特征融合支路，缓解细粒度纹理信息在深层传播过程中的损失。
+\end{enumerate}
+
+\section{改进模型结构}
+
+\subsection{通道重标定模块}
+
+通道注意力模块通过全局平均池化压缩空间维度，再使用两层感知机学习不同通道的重要性权重。其计算过程可写为
+\begin{equation}
+  \mathbf{s}=\sigma\left(\mathbf{W}_2\delta\left(\mathbf{W}_1\operatorname{GAP}(\mathbf{X})\right)\right),
+  \label{eq:channel-attn}
+\end{equation}
+其中 $\operatorname{GAP}$ 表示全局平均池化，$\delta(\cdot)$ 表示非线性激活函数，$\sigma(\cdot)$ 表示 Sigmoid 函数。通过式 \eqref{eq:channel-attn} 得到的权重向量可以对输入特征图进行逐通道重标定。
+
+\subsection{多尺度特征聚合}
+
+浅层特征保留更多纹理和边缘信息，深层特征则包含更强的语义表达能力。因此，本文在主干网络后两级特征图之间建立自顶向下的聚合路径，通过 $1\times1$ 卷积统一通道数，再进行逐元素相加，形成兼具语义与细节的融合表征。该结构能够提升复杂背景和小目标场景下的识别稳定性。
+
+\section{训练流程设计}
+
+模型训练流程包括数据预处理、数据增强、模型初始化、学习率调度和早停机制等环节。为了提高模型泛化能力，训练阶段使用随机裁剪、随机翻转和颜色扰动等增强策略；在优化器选择上采用带动量的随机梯度下降算法，并结合余弦退火学习率调度控制训练过程。
+
+\begin{table}[htbp]
+  \centering
+  \caption{模型训练参数设置}
+  \label{tab:train-setting}
+  \begin{tabular}{lc}
+    \toprule
+    参数项 & 取值 \\
+    \midrule
+    输入尺寸 & $224 \times 224$ \\
+    批大小 & 32 \\
+    初始学习率 & 0.01 \\
+    训练轮数 & 120 \\
+    优化器 & SGD \\
+    动量因子 & 0.9 \\
+    权重衰减 & $5\times10^{-4}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+表 \ref{tab:train-setting} 给出了实验所采用的核心训练参数。论文撰写时建议在该类表格中重点保留与实验复现直接相关的配置项。
+
+\section{实现细节示例}
+
+模板也支持在附录或正文中插入代码片段，例如算法伪代码、配置文件或关键实现逻辑。示例如下：
+
+\begin{lstlisting}[language=Python,caption={训练循环伪代码示例},label={lst:train-loop}]
+for epoch in range(num_epochs):
+    model.train()
+    for images, labels in train_loader:
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+\end{lstlisting}
+
+代码 \ref{lst:train-loop} 展示了基本训练循环的写法。实际论文中若代码较长，更建议将完整程序放入附录，只在正文中保留关键片段。
+
+\section{本章小结}
+
+本章从研究目标、改进模型结构和训练流程三个方面给出了本文的方法设计方案，并通过表格和代码示例说明了模板在实验参数展示与附录材料组织方面的使用方式。下一章将在公开数据集上验证所提方法的有效性。
