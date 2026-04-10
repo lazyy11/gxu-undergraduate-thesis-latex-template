@@ -36,12 +36,13 @@
 %% ------------------------------------------------------------
 \frontmatterpages
 
-\chapter*{摘\quad 要}
+\phantomsection
 \addcontentsline{toc}{chapter}{摘要}
+\gxuSpecialChapterTitle{摘\quad 要}
 \input{chapters/abstract_cn}
 
 \cleardoublepage
-\chapter*{}
+\phantomsection
 \addcontentsline{toc}{chapter}{Abstract}
 \gxuenglishtitle
 \input{chapters/abstract_en}
@@ -76,7 +77,7 @@
 \printthesisbibliography
 
 \appendix
-\chapter{补充实验材料}
+\gxuAppendixHeading{补充实验材料}
 \input{chapters/appendix}
 
 \begin{acknowledgement}
