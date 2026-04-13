@@ -41,6 +41,12 @@
 \RequirePackage{listings}
 \RequirePackage[backend=biber,style=gb7714-2015,sorting=none]{biblatex}
 
+\AtBeginDocument{%
+  % Keep superscript citations bracketed in Chinese-thesis style.
+  \let\supercite\cite
+  \let\supercites\cites
+}
+
 %% ============================================================
 %% 页面与字体
 %% ============================================================
@@ -345,6 +351,13 @@
   \vspace{\baselineskip}
 }
 
+\makeatletter
+\newcommand{\gxuIndentAfterTitle}{%
+  \@afterindenttrue
+  \@afterheading
+}
+\makeatother
+
 \ExplSyntaxOn
 \cs_new_protected:Npn \gxu_format_cn_keywords:n #1
   {
@@ -388,6 +401,7 @@
     {\sanhao\bfseries ABSTRACT\par}
   \end{center}
   \vspace{\baselineskip}
+  \gxuIndentAfterTitle
 }
 
 \newcommand{\gxuinsertlogo}{%
@@ -493,6 +507,7 @@
   \phantomsection
   \addcontentsline{toc}{chapter}{致谢}
   \gxuSpecialChapterTitle{致\quad 谢}
+  \gxuIndentAfterTitle
 }{}
 
 \defbibheading{gxubibliography}[\bibname]{%
