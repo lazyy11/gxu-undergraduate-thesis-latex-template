@@ -1,5 +1,5 @@
 # gxu-undergraduate-thesis-latex-template
-
+# 广西大学本科毕业论文模板
 （都2026年了，gxu竟然没有一个本科生毕业论文的latex模板！
 哎，这下轮到我要毕业了，索性自己写一个吧，顺便分享出来给后续的学弟学妹们用。）
 
