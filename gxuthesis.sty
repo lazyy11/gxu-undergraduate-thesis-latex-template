@@ -345,9 +345,10 @@
 }
 
 \newcommand{\gxuSpecialChapterTitle}[1]{%
-  \begin{center}
+  \par\begingroup
+    \centering
     {\sanhao\heiti #1\par}
-  \end{center}
+  \endgroup
   \vspace{\baselineskip}
 }
 
@@ -395,11 +396,12 @@
 }
 
 \newcommand{\gxuenglishtitle}{%
-  \begin{center}
+  \par\begingroup
+    \centering
     {\sanhao\bfseries \gxuThesisTitleEn\par}
     \vspace{\baselineskip}
     {\sanhao\bfseries ABSTRACT\par}
-  \end{center}
+  \endgroup
   \vspace{\baselineskip}
   \gxuIndentAfterTitle
 }
